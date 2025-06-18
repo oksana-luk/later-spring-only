@@ -17,7 +17,7 @@ public class UserController {
     }
 
     @PostMapping
-    private UserDto saveNewUser(@RequestBody UserCreateDto userCreateDto) {
-        return userService.saveUser(userCreateDto);
+    private UserDto saveNewUser(@RequestBody UserDto userDto) {
+        return userService.saveUser(userDto);
     }
 }

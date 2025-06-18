@@ -9,16 +9,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private static final UserMapper userMapper = new UserMapper();
 
     @Override
     public List<UserDto> getAllUsers() {
-        return userRepository.findAll().stream().map(userMapper::apply).toList();
+        return userRepository.findAll().stream().map(UserMapper::mapToUserDto).toList();
     }
 
     @Override
-    public UserDto saveUser(UserCreateDto userCreateDto) {
-        User user = userMapper.mappToUser(userCreateDto);
-        return userMapper.apply(userRepository.save(user));
+    public UserDto saveUser(UserDto userDto) {
+        User user = userRepository.save(UserMapper.mappToUser(userDto));
+        return UserMapper.mapToUserDto(user);
     }
 }

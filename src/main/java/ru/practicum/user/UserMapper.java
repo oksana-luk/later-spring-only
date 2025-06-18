@@ -1,38 +1,49 @@
 package ru.practicum.user;
 
-import java.time.ZoneId;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.function.Function;
+import java.util.List;
+import java.util.ArrayList;
 
-public class UserMapper implements Function<User, UserDto> {
-    private static DateTimeFormatter dateTimeFormatter =
-            DateTimeFormatter.ofPattern("yyyy.MM.dd, hh:mm:ss").withZone(ZoneId.of("UTC"));
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+class UserMapper {
+    private static final DateTimeFormatter dateTimeFormatter =
+            DateTimeFormatter.ofPattern("yyyy.MM.dd, hh:mm:ss").withZone(ZoneOffset.UTC);
 
-    @Override
-    public UserDto apply(User user) {
+    public static UserDto mapToUserDto(User user) {
         if (user == null) {
             return null;
         }
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setFullName(user.getFullName());
-        userDto.setEmail(user.getEmail());
-        userDto.setRegistrationDate(dateTimeFormatter.format(user.getRegistrationDate()));
-        return userDto;
+        return new UserDto(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                dateTimeFormatter.format(user.getRegistrationDate()),
+                user.getState());
     }
 
-    public User mappToUser(UserCreateDto userCreateDto) {
-        if (userCreateDto == null) {
+    public static User mappToUser(UserDto userDto) {
+        if (userDto == null) {
             return null;
         }
         User user = new User();
-        String[] partsOfName = userCreateDto.getFullName().split(" ");
-        user.setFirstName(partsOfName[0]);
-        if (partsOfName.length > 1) {
-            user.setLastName(partsOfName[1]);
-        }
-        user.setEmail(userCreateDto.getEmail());
-        user.setState(UserState.ACTIVE);
+        user.setId(userDto.getId());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setState(userDto.getState());
         return user;
+    }
+
+    public static List<UserDto> mapToUserDto(Iterable<User> users) {
+        List<UserDto> result = new ArrayList<>();
+        for (User user : users) {
+            result.add(mapToUserDto(user));
+        }
+        return result;
     }
 }

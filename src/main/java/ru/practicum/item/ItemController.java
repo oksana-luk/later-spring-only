@@ -17,8 +17,8 @@ public class ItemController {
     }
 
     @PostMapping
-    public ItemDto add(@RequestHeader("X-Later-User-Id") long userId, @RequestBody ItemCreateDto itemCreateDto) {
-        return itemService.addNewItem(userId, itemCreateDto);
+    public ItemDto add(@RequestHeader("X-Later-User-Id") long userId, @RequestBody ItemDto itemDto) {
+        return itemService.addNewItem(userId, itemDto);
     }
 
     @DeleteMapping("/{itemId}")

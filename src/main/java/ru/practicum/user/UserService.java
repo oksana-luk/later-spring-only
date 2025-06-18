@@ -6,5 +6,5 @@ public interface UserService {
 
     List<UserDto> getAllUsers();
 
-    UserDto saveUser(UserCreateDto user);
+    UserDto saveUser(UserDto user);
 }
