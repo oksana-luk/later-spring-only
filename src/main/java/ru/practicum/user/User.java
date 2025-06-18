@@ -19,13 +19,20 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
     private String email;
-    private String name;
     @Column(name = "registration_date")
     private Instant registrationDate = Instant.now();
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private UserState state;
 
-    public String getFullName() {
-        return firstName + " " + lastName;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        return id != null && id.equals(((User) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

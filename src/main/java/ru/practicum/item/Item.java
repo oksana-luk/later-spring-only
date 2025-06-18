@@ -8,8 +8,9 @@ import lombok.ToString;
 import java.util.HashSet;
 import java.util.Set;
 
-
-@Getter @Setter @ToString
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "items")
 public class Item {
@@ -18,17 +19,13 @@ public class Item {
     private Long id;
     @Column(name = "user_id", nullable = false)
     private Long userId;
+    @Column
     private String url;
 
     @ElementCollection
     @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "item_id"))
     @Column(name = "name")
     private Set<String> tags = new HashSet<>();
-
-    public Item(Long userId, String url) {
-        this.userId = userId;
-        this.url = url;
-    }
 
     @Override
     public boolean equals(Object o) {
