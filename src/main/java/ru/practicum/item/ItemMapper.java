@@ -2,6 +2,7 @@ package ru.practicum.item;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import ru.practicum.user.User;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,19 +16,19 @@ final class ItemMapper {
         }
         return new ItemDto(
                 item.getId(),
-                item.getUserId(),
+                item.getUser().getId(),
                 item.getUrl(),
                 new HashSet<>(item.getTags())
         );
 
     }
 
-    public static Item mapToItem(ItemDto itemDto, long userId) {
+    public static Item mapToItem(ItemDto itemDto, User user) {
         if (itemDto == null) {
             return null;
         }
         Item item = new Item();
-        item.setUserId(userId);
+        item.setUser(user);
         item.setUrl(itemDto.getUrl());
         item.setTags(itemDto.getTags());
         return item;
