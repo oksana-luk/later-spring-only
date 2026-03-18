@@ -19,14 +19,13 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.hasItem;
 
 @Transactional
-@TestPropertySource(properties = { "jdbc.url=jdbc:postgresql://localhost:5432/test",
-                                    "jdbc.username=postgres",
-                                    "jdbc.password=postgres"})
+@TestPropertySource("classpath:application-test.properties")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @SpringJUnitConfig({AppConfig.class, PersistenceConfig.class, UserServiceImpl.class})
 class UserServiceImplTest {
-
+    @Autowired
     private final EntityManager entityManager;
+    @Autowired
     private final UserService userService;
 
     @Test
