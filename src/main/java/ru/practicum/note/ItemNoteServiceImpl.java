@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.item.Item;
+import ru.practicum.item.model.Item;
 import ru.practicum.item.ItemRepository;
 
 import java.util.List;

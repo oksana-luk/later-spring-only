@@ -38,6 +38,10 @@ public class PersistenceConfig {
                 environment.getRequiredProperty("hibernate.jdbc.time_zone"));
         properties.put("hibernate.show_sql",
                 environment.getProperty("hibernate.show_sql", "false"));
+        properties.put("hibernate.dialect",
+                environment.getRequiredProperty("hibernate.dialect"));
+        properties.put("hibernate.hbm2ddl.auto",
+                environment.getProperty("hibernate.hbm2ddl.auto"));
         return properties;
     }
 

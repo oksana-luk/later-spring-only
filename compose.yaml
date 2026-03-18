@@ -1,9 +1,9 @@
 services:
   db:
     image: postgres:16.1
-    container_name: postgres
+    container_name: postgres-later
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - ./volumes/postgres:/var/lib/postgresql/data/
     environment:
@@ -27,7 +27,7 @@ services:
       - -c
       - |
         set -e
-        psql postgresql://dbuser:12345@db:5432/later -v ON_ERROR_STOP=1 <<-EOSQL
+        psql postgresql://dbuser:12345@db:5433/later -v ON_ERROR_STOP=1 <<-EOSQL
         CREATE TABLE IF NOT EXISTS users (
           id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
           email varchar(320),
@@ -41,6 +41,13 @@ services:
           id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
           user_id BIGINT,
           url varchar(1000),
+          resolved_url varchar(1000),
+          mime_type varchar(100),
+          title varchar(225),
+          has_image BOOLEAN,
+          has_video BOOLEAN,
+          unread BOOLEAN,
+          date_resolved TIMESTAMP WITHOUT TIME ZONE,
           CONSTRAINT fk_items_to_users FOREIGN KEY(user_id) REFERENCES users(id),
           UNIQUE(id, url)
         );
